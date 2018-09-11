@@ -9,8 +9,8 @@ namespace SQ88Buffet.Services
     {
         List<Purchase> GetAllPurchaseData();
         Purchase GetPurchaseData(int id);
-        List<Purchase> GetPurchaseDataForPerson(int personId);
-        List<Purchase> GetPurchaseDataForPersonWithDate(int personId, DateTime datetime);
+        List<Purchase> GetPurchasesDataForPerson(int personId);
+        List<Purchase> GetPurchasesDataForPersonWithDate(int personId, DateTime datetime);
         void DeleteAllPurchases();
         void DeleteAllPurchasesForPerson(int personId);
         void DeleteAllBilledPurchaseForPerson(int personId);

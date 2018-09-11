@@ -54,7 +54,7 @@ namespace SQ88Buffet.Helpers
         #endregion
 
         #region Product CRUDS
-        public List<Product> GetAllProductData()
+        public List<Product> GetAllProductsData()
         {
             return (from data in sqliteconnection.Table<Product>() select data).ToList();
         }
@@ -86,7 +86,7 @@ namespace SQ88Buffet.Helpers
         #endregion
 
         #region Purchase CRUDS
-        public List<Purchase> GetAllPurchaseData()
+        public List<Purchase> GetAllPurchasesData()
         {
             return (from data in sqliteconnection.Table<Purchase>() select data).ToList();
         }
@@ -95,11 +95,11 @@ namespace SQ88Buffet.Helpers
         {
             return sqliteconnection.Table<Purchase>().FirstOrDefault(p => p.Id == id);
         }
-        public List<Purchase> GetPurchaseDataForPerson(int personId)
+        public List<Purchase> GetPurchasesDataForPerson(int personId)
         {
             return sqliteconnection.Table<Purchase>().Where(p => p.PersonId == personId).ToList();
         }
-        public List<Purchase> GetPurchaseDataForPersonWithDate(int personId, DateTime datetime)
+        public List<Purchase> GetPurchasesDataForPersonWithDate(int personId, DateTime datetime)
         {
             return sqliteconnection.Table<Purchase>().Where(p => p.PersonId == personId 
             && p.PurchaseDate >= datetime).ToList();
@@ -112,7 +112,7 @@ namespace SQ88Buffet.Helpers
         {
             sqliteconnection.Execute("DELETE FROM Purchase WHERE PersonId = ?", personId);
         }
-        public void DeleteAllBilledPurchaseForPerson(int personId)
+        public void DeleteAllBilledPurchasesForPerson(int personId)
         {
             sqliteconnection.Execute("DELETE FROM Purchase WHERE PersonId = ? AND Billed = ?", personId, true);
         }

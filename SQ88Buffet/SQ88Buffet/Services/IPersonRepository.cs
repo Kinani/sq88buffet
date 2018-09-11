@@ -8,7 +8,7 @@ namespace SQ88Buffet.Services
     public interface IPersonRepository
     {
         List<Person> GetAllPersonsData();
-        Person GetPersonData();
+        Person GetPersonData(int id);
         void DeleteAllPersons();
         void DeletePerson(int id);
         void InsertPerson(Person person);

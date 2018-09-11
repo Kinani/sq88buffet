@@ -14,7 +14,7 @@ namespace SQ88Buffet.Models
         public int ProductId { get; set; }
         public int UnitsOfProduct { get; set; }
         public float PurchaseValue { get; set; }
-        public bool Billed { get; set; } = false;
-        public DateTime PurchaseDate { get; } = DateTime.Now;
+        public bool Billed { get; set; } 
+        public DateTime PurchaseDate { get; set; } 
     }
 }
