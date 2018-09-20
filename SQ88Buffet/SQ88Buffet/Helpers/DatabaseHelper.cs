@@ -1,6 +1,5 @@
-﻿
-using SQ88Buffet.Models;
-using SQLite.Net;
+﻿using SQ88Buffet.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;

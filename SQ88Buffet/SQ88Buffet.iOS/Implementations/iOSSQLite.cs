@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
 using Foundation;
 using SQ88Buffet.Helpers;
-using SQLite.Net;
+using SQLite;
 using UIKit;
 
 namespace SQ88Buffet.iOS.Implementations
@@ -19,8 +18,8 @@ namespace SQ88Buffet.iOS.Implementations
             string libraryPath = Path.Combine(documentsPath, "..", "Library"); // Library folder  
             var path = Path.Combine(libraryPath, DatabaseHelper.DbFileName);
             // Create the connection  
-            var plat = new SQLite.Net.Platform.XamarinIOS.SQLitePlatformIOS();
-            var conn = new SQLiteConnection(plat, path);
+            //var plat = new SQLite.Net.Platform.XamarinIOS.SQLitePlatformIOS();
+            var conn = new SQLiteConnection(path);
             // Return the database connection  
             return conn;
         }

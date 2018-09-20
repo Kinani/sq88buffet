@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SQ88Buffet.Models;
+using SQ88Buffet.Views;
+using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,11 +10,12 @@ namespace SQ88Buffet
 {
     public partial class App : Application
     {
+        public static List<Purchase> GlobalPurhases;
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            GlobalPurhases = new List<Purchase>();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

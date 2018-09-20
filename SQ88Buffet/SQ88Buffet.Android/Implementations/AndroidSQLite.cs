@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -12,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using SQ88Buffet.Droid.Implementations;
 using SQ88Buffet.Helpers;
-using SQLite.Net;
+using SQLite;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AndroidSQLite))]
 namespace SQ88Buffet.Droid.Implementations
@@ -25,8 +24,8 @@ namespace SQ88Buffet.Droid.Implementations
                 .Personal);
 
             var path = Path.Combine(documentsPath, DatabaseHelper.DbFileName);
-            var plat = new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid();
-            var conn = new SQLiteConnection(plat, path);
+            //var plat = new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid();
+            var conn = new SQLiteConnection(path);
 
             return conn;
         }
