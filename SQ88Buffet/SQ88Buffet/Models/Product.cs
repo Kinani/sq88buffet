@@ -11,9 +11,9 @@ namespace SQ88Buffet.Models
         [PrimaryKey][AutoIncrement]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public string Category { get; set; }
-        public float Price { get; set; }
+        public decimal Price { get; set; }
         public DateTime ExpiryDate { get; set; }
     }
 }

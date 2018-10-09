@@ -2,16 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SQ88Buffet.Services
 {
     public interface IProductRepository
     {
-        List<Product> GetAllProductData();
-        Product GetProductData(int id);
-        void DeleteAllProducts();
-        void DeleteProduct(int id);
-        void InsertProduct(Product product);
-        void UpdateProduct(Product product);
+        Task<List<Product>> GetAllProductData();
+        Task<List<Product>> GetAllProductData(string category);
+        Task<Product> GetProductData(int id);
+        Task DeleteAllProducts();
+        Task DeleteProduct(int id);
+        Task InsertProduct(Product product);
+        Task UpdateProduct(Product product);
     }
 }

@@ -2,7 +2,9 @@
 using SQ88Buffet.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Xamarin.Forms;
@@ -15,9 +17,13 @@ namespace SQ88Buffet.ViewModels
         public INavigation _navigation;
         public IProductRepository _productRepository;
 
+
+        decimal priceTemp;
+        int quantityTemp;
+
         public string Name
         {
-            get => _product.Name;
+            get => _product.Name == string.Empty ? null : _product.Name;
             set
             {
                 _product.Name = value;
@@ -25,19 +31,19 @@ namespace SQ88Buffet.ViewModels
             }
         }
 
-        public int Quantity
+        public decimal Quantity
         {
-            get => _product.Quantity;
+            get => int.TryParse(_product.Quantity.ToString(), out quantityTemp) ? quantityTemp : 0;
             set
             {
-                _product.Quantity = value;
+                _product.Quantity = int.TryParse(value.ToString(), out quantityTemp) ? quantityTemp : 0;
                 NotifyPropertyChanged("Quantity");
             }
         }
 
         public string Category
         {
-            get => _product.Category;
+            get => _product.Category == string.Empty ? null : _product.Category;
             set
             {
                 _product.Category = value;
@@ -45,13 +51,12 @@ namespace SQ88Buffet.ViewModels
             }
         }
 
-
-        public float Price
+        public decimal Price
         {
-            get => _product.Price;
+            get => decimal.TryParse(_product.Price.ToString(), out priceTemp) ? priceTemp : 0;
             set
             {
-                _product.Price = value;
+                _product.Price = decimal.TryParse(value.ToString(), out priceTemp) ? priceTemp : 0;
                 NotifyPropertyChanged("Price");
             }
         }
@@ -67,8 +72,8 @@ namespace SQ88Buffet.ViewModels
             }
         }
 
-        List<Product> _productsList;
-        public List<Product> ProductsList
+        ObservableCollection<Product> _productsList;
+        public ObservableCollection<Product> ProductsList
         {
             get => _productsList;
             set

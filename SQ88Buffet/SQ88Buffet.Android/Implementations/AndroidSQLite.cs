@@ -18,14 +18,14 @@ namespace SQ88Buffet.Droid.Implementations
 {
     public class AndroidSQLite : ISQLite
     {
-        public SQLiteConnection GetConnection()
+        public SQLiteAsyncConnection GetConnection()
         {
             string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder
                 .Personal);
 
             var path = Path.Combine(documentsPath, DatabaseHelper.DbFileName);
             //var plat = new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid();
-            var conn = new SQLiteConnection(path);
+            var conn = new SQLiteAsyncConnection(path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
 
             return conn;
         }

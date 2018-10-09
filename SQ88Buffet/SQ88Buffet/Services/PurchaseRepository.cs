@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using SQ88Buffet.Helpers;
 using SQ88Buffet.Models;
 
@@ -13,54 +14,54 @@ namespace SQ88Buffet.Services
         {
             _databaseHelper = new DatabaseHelper();
         }
-        public void DeleteAllBilledPurchaseForPerson(int personId)
+        public async Task DeleteAllBilledPurchaseForPerson(int personId)
         {
-            _databaseHelper.DeleteAllBilledPurchasesForPerson(personId);
+            await _databaseHelper.DeleteAllBilledPurchasesForPerson(personId);
         }
 
-        public void DeleteAllPurchases()
+        public async Task DeleteAllPurchases()
         {
-            _databaseHelper.DeleteAllPurchases();
+            await _databaseHelper.DeleteAllPurchases();
         }
 
-        public void DeleteAllPurchasesForPerson(int personId)
+        public async Task DeleteAllPurchasesForPerson(int personId)
         {
-            _databaseHelper.DeleteAllPurchasesForPerson(personId);
+            await _databaseHelper.DeleteAllPurchasesForPerson(personId);
         }
 
-        public void DeletePurchase(int id)
+        public async Task DeletePurchase(int id)
         {
-            _databaseHelper.DeletePurchase(id);
+            await _databaseHelper.DeletePurchase(id);
         }
 
-        public List<Purchase> GetAllPurchaseData()
+        public async Task<List<Purchase>> GetAllPurchaseData()
         {
-            return _databaseHelper.GetAllPurchasesData();
+            return await _databaseHelper.GetAllPurchasesData();
         }
 
-        public Purchase GetPurchaseData(int id)
+        public async Task<Purchase> GetPurchaseData(int id)
         {
-            return _databaseHelper.GetPurchaseData(id);
+            return await _databaseHelper.GetPurchaseData(id);
         }
 
-        public List<Purchase> GetPurchasesDataForPerson(int personId)
+        public async Task<List<Purchase>> GetPurchasesDataForPerson(int personId)
         {
-            return _databaseHelper.GetPurchasesDataForPerson(personId);
+            return await _databaseHelper.GetPurchasesDataForPerson(personId);
         }
 
-        public List<Purchase> GetPurchasesDataForPersonWithDate(int personId, DateTime datetime)
+        public async Task<List<Purchase>> GetPurchasesDataForPersonWithDate(int personId, DateTime datetime)
         {
-            return _databaseHelper.GetPurchasesDataForPersonWithDate(personId, datetime);
+            return await _databaseHelper.GetPurchasesDataForPersonWithDate(personId, datetime);
         }
 
-        public void InsertPurchase(Purchase purchase, Person person, Product product)
+        public async Task InsertPurchase(Purchase purchase, Person person, Product product)
         {
-            _databaseHelper.InsertPurchase(purchase, person, product);
+            await _databaseHelper.InsertPurchase(purchase, person, product);
         }
 
-        public void UpdatePurchase(Purchase purchase)
+        public async Task UpdatePurchase(Purchase purchase)
         {
-            _databaseHelper.UpdatePurchase(purchase);
+            await _databaseHelper.UpdatePurchase(purchase);
         }
     }
 }

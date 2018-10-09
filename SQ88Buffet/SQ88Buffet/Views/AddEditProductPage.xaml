@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SQ88Buffet.Views.AddEditProductPage"
+             Title="Add/Update Product">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="5">
+                <Entry x:Name="txtProductName" Text="{Binding Name}" HeightRequest="40" BackgroundColor="White"
+                   Placeholder="Product name" HorizontalOptions="FillAndExpand"></Entry>
+                <Label>Quantity:</Label>
+                <Entry x:Name="txtProductQuantity" Text="{Binding Quantity}" HeightRequest="40" BackgroundColor="White"
+                   Placeholder="Product quantity" Keyboard="Numeric" HorizontalOptions="FillAndExpand"></Entry>
+                <Label>Price:</Label>
+                <Entry x:Name="txtProductPrice" Keyboard="Numeric" Text="{Binding Price}" HeightRequest="40" BackgroundColor="White"
+                   Placeholder="Product price" HorizontalOptions="FillAndExpand"></Entry>
+                <Picker x:Name="CategoryPicker" SelectedItem="{Binding Category}" Title="Product category"
+                    BackgroundColor="White" HeightRequest="40" HorizontalOptions="FillAndExpand">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Drinks</x:String>
+                            <x:String>Sancks</x:String>
+                            <x:String>Food</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Label>Expiry date:</Label>
+                <DatePicker x:Name="ExpiryDatePicker" Date="{Binding ExpiryDate}" BackgroundColor="White"
+                        HeightRequest="40" HorizontalOptions="FillAndExpand" />
+                <Button x:Name="SubmitButton" Command="{Binding AddProductCommand}" BorderRadius="0"
+                    Text="Save Product" FontAttributes="Bold" TextColor="White" BackgroundColor="#5989B5"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

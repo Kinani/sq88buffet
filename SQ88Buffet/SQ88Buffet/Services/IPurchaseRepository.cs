@@ -2,20 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SQ88Buffet.Services
 {
     public interface IPurchaseRepository
     {
-        List<Purchase> GetAllPurchaseData();
-        Purchase GetPurchaseData(int id);
-        List<Purchase> GetPurchasesDataForPerson(int personId);
-        List<Purchase> GetPurchasesDataForPersonWithDate(int personId, DateTime datetime);
-        void DeleteAllPurchases();
-        void DeleteAllPurchasesForPerson(int personId);
-        void DeleteAllBilledPurchaseForPerson(int personId);
-        void DeletePurchase(int id);
-        void InsertPurchase(Purchase purchase, Person person, Product product);
-        void UpdatePurchase(Purchase purchase);
+        Task<List<Purchase>> GetAllPurchaseData();
+        Task<Purchase> GetPurchaseData(int id);
+        Task<List<Purchase>> GetPurchasesDataForPerson(int personId);
+        Task<List<Purchase>> GetPurchasesDataForPersonWithDate(int personId, DateTime datetime);
+        Task DeleteAllPurchases();
+        Task DeleteAllPurchasesForPerson(int personId);
+        Task DeleteAllBilledPurchaseForPerson(int personId);
+        Task DeletePurchase(int id);
+        Task InsertPurchase(Purchase purchase, Person person, Product product);
+        Task UpdatePurchase(Purchase purchase);
     }
 }

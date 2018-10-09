@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,10 +11,11 @@ using Xamarin.Forms;
 
 namespace SQ88Buffet.ViewModels
 {
-    public class MainPageViewModel
+    public class MainPageViewModel 
     {
+
         public INavigation _navigation;
-        public ProductsCateg SelectedCatag { get; set; }
+       
         public ObservableCollection<ProductsCateg> ProductsCateg { get; set; }
         public ICommand NavigateToPickerPageCommand { get; private set; }
 
@@ -26,12 +29,20 @@ namespace SQ88Buffet.ViewModels
                 new ProductsCateg() {ProdType = "Food"},
                 new ProductsCateg() {ProdType = "Admin" }
             };
-            NavigateToPickerPageCommand = new Command(async () => await NavigateToPickerPage());
+            NavigateToPickerPageCommand = new Command(async (e) => await NavigateToPickerPage(e));
         }
 
-        private async Task NavigateToPickerPage()
+        private async Task NavigateToPickerPage(object e)
         {
-            await _navigation.PushAsync(new PickProductPage(SelectedCatag));
+            var categ = (e as ProductsCateg);
+            if(categ.ProdType == "Admin")
+            {
+                await _navigation.PushAsync(new AdminPage());
+            }
+            else
+            {
+                await _navigation.PushAsync(new PickProductPage(categ));
+            }
         }
     }
     public class ProductsCateg

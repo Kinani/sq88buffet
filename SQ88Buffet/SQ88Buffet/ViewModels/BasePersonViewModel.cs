@@ -2,6 +2,7 @@
 using SQ88Buffet.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -56,8 +57,8 @@ namespace SQ88Buffet.ViewModels
             }
         }
 
-        List<Person> _personsList;
-        public List<Person> PersonsList
+        ObservableCollection<Person> _personsList;
+        public ObservableCollection<Person> PersonsList
         {
             get => _personsList;
             set

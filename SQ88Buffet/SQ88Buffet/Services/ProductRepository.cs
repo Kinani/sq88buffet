@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using SQ88Buffet.Helpers;
 using SQ88Buffet.Models;
 
@@ -13,34 +14,39 @@ namespace SQ88Buffet.Services
         {
             _databaseHelper = new DatabaseHelper();
         }
-        public void DeleteAllProducts()
+        public async Task DeleteAllProducts()
         {
-            _databaseHelper.DeleteAllProducts();
+            await _databaseHelper.DeleteAllProducts();
         }
 
-        public void DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
-            _databaseHelper.DeleteProduct(id);
+             await _databaseHelper.DeleteProduct(id);
         }
 
-        public List<Product> GetAllProductData()
+        public async Task<List<Product>> GetAllProductData()
         {
-            return _databaseHelper.GetAllProductsData();
+            return await _databaseHelper.GetAllProductsData();
         }
 
-        public Product GetProductData(int id)
+        public async Task<List<Product>> GetAllProductData(string category)
         {
-            return _databaseHelper.GetProductData(id);
+            return await _databaseHelper.GetAllProductsData(category);
         }
 
-        public void InsertProduct(Product product)
+        public async Task<Product> GetProductData(int id)
         {
-            _databaseHelper.InsertProduct(product);
+            return await _databaseHelper.GetProductData(id);
         }
 
-        public void UpdateProduct(Product product)
+        public async Task InsertProduct(Product product)
         {
-            _databaseHelper.UpdateProduct(product);
+            await _databaseHelper.InsertProduct(product);
+        }
+
+        public async Task UpdateProduct(Product product)
+        {
+            await _databaseHelper.UpdateProduct(product);
         }
     }
 }

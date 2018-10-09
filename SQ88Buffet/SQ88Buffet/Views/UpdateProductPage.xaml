@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SQ88Buffet.Views.UpdateProductPage"
+             Title="Update product"
+             x:Name="UpdatePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="ProductsListView" HasUnevenRows="False"  
+                  ItemsSource="{Binding ProductsList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="DimGray" Margin="3">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference UpdatePage}, Path=BindingContext.NavigateToUpdateProdPageCommand}" 
+                                                      CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackLayout Orientation="Horizontal" Grid.Row="0">
+                                    <Label Text="{Binding Name, StringFormat='Name: {0:N}'}" Font="10" TextColor="Black"></Label>
+                                    <Label Text="{Binding Price, StringFormat='Price: {0:N}'}" Font="10" TextColor="Black"></Label>
+                                </StackLayout>
+                                <StackLayout Grid.Row="1">
+                                    <Label Text="{Binding Quantity, StringFormat='Quantity: {0:N}'}" Font="10" TextColor="Red"></Label>
+                                    <Label Text="{Binding Category, StringFormat='Category: {0:N}'}" Font="10" TextColor="Black"></Label>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

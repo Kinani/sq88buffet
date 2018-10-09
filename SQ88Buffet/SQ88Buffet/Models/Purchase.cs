@@ -13,7 +13,7 @@ namespace SQ88Buffet.Models
         public int PersonId { get; set; }
         public int ProductId { get; set; }
         public int UnitsOfProduct { get; set; }
-        public float PurchaseValue { get; set; }
+        public decimal PurchaseValue { get; set; }
         public bool Billed { get; set; } 
         public DateTime PurchaseDate { get; set; } 
     }

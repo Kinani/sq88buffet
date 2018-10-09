@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using SQ88Buffet.Helpers;
 using SQ88Buffet.Models;
 
@@ -13,34 +14,34 @@ namespace SQ88Buffet.Services
         {
             _databaseHelper = new DatabaseHelper();
         }
-        public void DeleteAllPersons()
+        public async Task DeleteAllPersons()
         {
-            _databaseHelper.DeleteAllPersons();
+            await _databaseHelper.DeleteAllPersons();
         }
 
-        public void DeletePerson(int id)
+        public async Task DeletePerson(int id)
         {
-            _databaseHelper.DeletePerson(id);
+            await _databaseHelper.DeletePerson(id);
         }
 
-        public List<Person> GetAllPersonsData()
+        public async Task<List<Person>> GetAllPersonsData()
         {
-            return _databaseHelper.GetAllPersonsData();
+            return await _databaseHelper.GetAllPersonsData();
         }
 
-        public Person GetPersonData(int id)
+        public async Task<Person> GetPersonData(int id)
         {
-            return _databaseHelper.GetPersonData(id);
+            return await _databaseHelper.GetPersonData(id);
         }
 
-        public void InsertPerson(Person person)
+        public async Task InsertPerson(Person person)
         {
-            _databaseHelper.InsertPerson(person);
+            await _databaseHelper.InsertPerson(person);
         }
 
-        public void UpdatePerson(Person person)
+        public async Task UpdatePerson(Person person)
         {
-            _databaseHelper.UpdatePerson(person);
+            await _databaseHelper.UpdatePerson(person);
         }
     }
 }

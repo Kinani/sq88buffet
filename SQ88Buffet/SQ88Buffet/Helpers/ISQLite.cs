@@ -7,6 +7,6 @@ namespace SQ88Buffet.Helpers
 {
     public interface ISQLite
     {
-        SQLiteConnection GetConnection();
+        SQLiteAsyncConnection GetConnection();
     }
 }

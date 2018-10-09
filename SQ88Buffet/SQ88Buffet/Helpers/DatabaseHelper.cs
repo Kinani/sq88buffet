@@ -4,133 +4,142 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SQ88Buffet.Helpers
 {
     public class DatabaseHelper
     {
-        static SQLiteConnection sqliteconnection;
+        static SQLiteAsyncConnection sqliteconnection;
         public const string DbFileName = "buffetDB.db";
 
         public DatabaseHelper()
         {
             sqliteconnection = DependencyService.Get<ISQLite>().GetConnection();
-            sqliteconnection.CreateTable<Person>();
-            sqliteconnection.CreateTable<Product>();
-            sqliteconnection.CreateTable<Purchase>();
+            sqliteconnection.CreateTableAsync<Person>().Wait();
+            sqliteconnection.CreateTableAsync<Product>().Wait();
+            sqliteconnection.CreateTableAsync<Purchase>().Wait();
         }
         #region Person CRUDS
-        public List<Person> GetAllPersonsData()
+        public Task<List<Person>> GetAllPersonsData()
         {
-            return (from data in sqliteconnection.Table<Person>() select data).ToList();
-        }
-        
-        public Person GetPersonData(int id)
-        {
-            return sqliteconnection.Table<Person>().FirstOrDefault(p => p.Id == id);
+            //return (from data in sqliteconnection.Table<Person>() select data).ToList();
+            return sqliteconnection.Table<Person>().ToListAsync();
         }
 
-        public void DeleteAllPersons()
+        public Task<Person> GetPersonData(int id)
         {
-            sqliteconnection.DeleteAll<Person>();
+            return sqliteconnection.Table<Person>().FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void DeletePerson(int id)
+        public Task<int> DeleteAllPersons()
         {
-            sqliteconnection.Delete<Person>(id);
+            return sqliteconnection.DeleteAllAsync<Person>();
         }
 
-        public void InsertPerson(Person person)
+        public Task<int> DeletePerson(int id)
         {
-            sqliteconnection.Insert(person);
+            return sqliteconnection.DeleteAsync<Person>(id);
         }
 
-        public void UpdatePerson(Person person)
+        public Task<int> InsertPerson(Person person)
         {
-            sqliteconnection.Update(person);
+            return sqliteconnection.InsertAsync(person);
+        }
+
+        public Task<int> UpdatePerson(Person person)
+        {
+            return sqliteconnection.UpdateAsync(person);
         }
         #endregion
 
         #region Product CRUDS
-        public List<Product> GetAllProductsData()
+        public Task<List<Product>> GetAllProductsData()
         {
-            return (from data in sqliteconnection.Table<Product>() select data).ToList();
+            //return (from data in sqliteconnection.Table<Product>() select data).ToList();
+            return sqliteconnection.Table<Product>().ToListAsync();
+        }
+        public Task<List<Product>> GetAllProductsData(string category)
+        {
+            //return (from data in sqliteconnection.Table<Product>() select data).ToList();
+            return sqliteconnection.Table<Product>().Where(x => x.Category == category).ToListAsync();
         }
 
-        public Product GetProductData(int id)
+        public Task<Product> GetProductData(int id)
         {
-            return sqliteconnection.Table<Product>().FirstOrDefault(p => p.Id == id);
+            return sqliteconnection.Table<Product>().FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void DeleteAllProducts()
+        public Task<int> DeleteAllProducts()
         {
-            sqliteconnection.DeleteAll<Product>();
+            return sqliteconnection.DeleteAllAsync<Product>();
         }
 
-        public void DeleteProduct(int id)
+        public Task<int> DeleteProduct(int id)
         {
-            sqliteconnection.Delete<Product>(id);
+            return sqliteconnection.DeleteAsync<Product>(id);
         }
 
-        public void InsertProduct(Product product)
+        public Task<int> InsertProduct(Product product)
         {
-            sqliteconnection.Insert(product);
+            return sqliteconnection.InsertAsync(product);
         }
 
-        public void UpdateProduct(Product product)
+        public Task<int> UpdateProduct(Product product)
         {
-            sqliteconnection.Update(product);
+            return sqliteconnection.UpdateAsync(product);
         }
         #endregion
 
         #region Purchase CRUDS
-        public List<Purchase> GetAllPurchasesData()
+        public Task<List<Purchase>> GetAllPurchasesData()
         {
-            return (from data in sqliteconnection.Table<Purchase>() select data).ToList();
+            //return (from data in sqliteconnection.Table<Purchase>() select data).ToList();
+            return sqliteconnection.Table<Purchase>().ToListAsync();
         }
 
-        public Purchase GetPurchaseData(int id)
+        public Task<Purchase> GetPurchaseData(int id)
         {
-            return sqliteconnection.Table<Purchase>().FirstOrDefault(p => p.Id == id);
+            return sqliteconnection.Table<Purchase>().FirstOrDefaultAsync(p => p.Id == id);
         }
-        public List<Purchase> GetPurchasesDataForPerson(int personId)
+        public Task<List<Purchase>> GetPurchasesDataForPerson(int personId)
         {
-            return sqliteconnection.Table<Purchase>().Where(p => p.PersonId == personId).ToList();
+            return sqliteconnection.Table<Purchase>().Where(p => p.PersonId == personId).ToListAsync();
         }
-        public List<Purchase> GetPurchasesDataForPersonWithDate(int personId, DateTime datetime)
+        public Task<List<Purchase>> GetPurchasesDataForPersonWithDate(int personId, DateTime datetime)
         {
             return sqliteconnection.Table<Purchase>().Where(p => p.PersonId == personId 
-            && p.PurchaseDate >= datetime).ToList();
+            && p.PurchaseDate >= datetime).ToListAsync();
         }
-        public void DeleteAllPurchases()
+        public Task<int> DeleteAllPurchases()
         {
-            sqliteconnection.DeleteAll<Purchase>();
+            return sqliteconnection.DeleteAllAsync<Purchase>();
         }
-        public void DeleteAllPurchasesForPerson(int personId)
+        public Task<int> DeleteAllPurchasesForPerson(int personId)
         {
-            sqliteconnection.Execute("DELETE FROM Purchase WHERE PersonId = ?", personId);
+            return sqliteconnection.ExecuteAsync("DELETE FROM Purchase WHERE PersonId = ?", personId);
         }
-        public void DeleteAllBilledPurchasesForPerson(int personId)
+        public Task<int> DeleteAllBilledPurchasesForPerson(int personId)
         {
-            sqliteconnection.Execute("DELETE FROM Purchase WHERE PersonId = ? AND Billed = ?", personId, true);
+            return sqliteconnection.ExecuteAsync("DELETE FROM Purchase WHERE PersonId = ? AND Billed = ?", personId, true);
         }
-        public void DeletePurchase(int id)
+        public Task<int> DeletePurchase(int id)
         {
-            sqliteconnection.Delete<Purchase>(id);
+            return sqliteconnection.DeleteAsync<Purchase>(id);
         }
 
-        public void InsertPurchase(Purchase purchase, Person person, Product product)
+        public Task<int> InsertPurchase(Purchase purchase, Person person, Product product)
         {
             purchase.PersonId = person.Id;
             purchase.ProductId = product.Id;
             purchase.PurchaseValue = purchase.UnitsOfProduct*product.Price; // Test for float point percision.
-            sqliteconnection.Insert(purchase);
+            return sqliteconnection.InsertAsync(purchase);
         }
 
-        public void UpdatePurchase(Purchase purchase)
+        public Task<int> UpdatePurchase(Purchase purchase)
         {
-            sqliteconnection.Update(purchase);
+            return sqliteconnection.UpdateAsync(purchase);
         }
         #endregion
     }

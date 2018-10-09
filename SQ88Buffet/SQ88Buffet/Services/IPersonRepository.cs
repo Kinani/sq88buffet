@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SQ88Buffet.Services
 {
     public interface IPersonRepository
     {
-        List<Person> GetAllPersonsData();
-        Person GetPersonData(int id);
-        void DeleteAllPersons();
-        void DeletePerson(int id);
-        void InsertPerson(Person person);
-        void UpdatePerson(Person person);
+        Task<List<Person>> GetAllPersonsData();
+        Task<Person> GetPersonData(int id);
+        Task DeleteAllPersons();
+        Task DeletePerson(int id);
+        Task InsertPerson(Person person);
+        Task UpdatePerson(Person person);
     }
 }

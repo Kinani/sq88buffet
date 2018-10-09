@@ -2,6 +2,7 @@
 using SQ88Buffet.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -45,7 +46,7 @@ namespace SQ88Buffet.ViewModels
             }
         }
         
-        public float PurchaseValue
+        public decimal PurchaseValue
         {
             get => _purchase.PurchaseValue;
             set
@@ -75,8 +76,8 @@ namespace SQ88Buffet.ViewModels
             }
         }
 
-        List<Purchase> _purchasesList;
-        public List<Purchase> PurchasesList
+        ObservableCollection<Purchase> _purchasesList;
+        public ObservableCollection<Purchase> PurchasesList
         {
             get => _purchasesList;
             set
