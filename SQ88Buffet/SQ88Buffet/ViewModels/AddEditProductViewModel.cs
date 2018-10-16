@@ -23,7 +23,10 @@ namespace SQ88Buffet.ViewModels
             deleteFlag = delete;
 
             if (productToUpdate == null)
+            {
                 _product = new Product();
+                ExpiryDate = DateTime.Now;
+            }
             else
             {
                 _product = productToUpdate;

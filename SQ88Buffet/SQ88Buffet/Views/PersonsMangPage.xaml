@@ -1,12 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SQ88Buffet.Views.PersonsMangPage">
+             x:Class="SQ88Buffet.Views.PersonsMangPage"
+             Title="Persrons manag."
+             x:Name="PersonManPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ListView x:Name="PagesListView" HasUnevenRows="True" SeparatorColor="Black" 
+                  ItemsSource="{Binding PersonOptions}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding Option}" Font="20" TextColor="Black">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference PersonManPage}, Path=BindingContext.NavigateToPersonOptionCommand}" 
+                                                      CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SQ88Buffet.Views.AddEditPersonPage"
+             Title="Add/Update Person">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="5">
+                <Entry x:Name="txtPersonName" Text="{Binding Name}" HeightRequest="40" BackgroundColor="White"
+                   Placeholder="Person name" HorizontalOptions="FillAndExpand"></Entry>
+                <Picker x:Name="RankPicker" SelectedItem="{Binding Rank}" Title="Person Rank"
+                    BackgroundColor="White" HeightRequest="40" HorizontalOptions="FillAndExpand">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Officer</x:String>
+                            <x:String>Warrant Officer</x:String>
+                            <x:String>Soldier</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Label>Balance:</Label>
+                <Entry x:Name="txtPersonBalance" Text="{Binding Balance}" HeightRequest="40" BackgroundColor="White"
+                   Placeholder="Person balance" Keyboard="Numeric" HorizontalOptions="FillAndExpand"></Entry>
+                <Label>Last billed</Label>
+                <DatePicker x:Name="LastBilledDatePicker" Date="{Binding LastBilled}" BackgroundColor="White"
+                        HeightRequest="40" HorizontalOptions="FillAndExpand" IsEnabled="False"/>
+                <Button x:Name="SubmitButton" Command="{Binding AddPersonCommand}" BorderRadius="0"
+                    Text="Add Person" FontAttributes="Bold" TextColor="White" BackgroundColor="#5989B5"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

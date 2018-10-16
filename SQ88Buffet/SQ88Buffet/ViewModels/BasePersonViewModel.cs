@@ -16,10 +16,11 @@ namespace SQ88Buffet.ViewModels
         public INavigation _navigation;
         public IPersonRepository _personRepository;
 
+        decimal balanceTemp;
 
         public string Name
         {
-            get => _person.Name;
+            get => _person.Name == string.Empty? null : _person.Name;
             set
             {
                 _person.Name = value;
@@ -29,7 +30,7 @@ namespace SQ88Buffet.ViewModels
 
         public string Rank
         {
-            get => _person.Rank;
+            get => _person.Rank == string.Empty ? null : _person.Rank;
             set
             {
                 _person.Rank = value;
@@ -37,12 +38,12 @@ namespace SQ88Buffet.ViewModels
             }
         }
 
-        public float Balance
+        public decimal Balance
         {
-            get => _person.Balance;
+            get => decimal.TryParse(_person.Balance.ToString(), out balanceTemp) ? balanceTemp : 0;
             set
             {
-                _person.Balance = value;
+                _person.Balance = decimal.TryParse(value.ToString(), out balanceTemp) ? balanceTemp : 0;
                 NotifyPropertyChanged("Balance");
             }
         }

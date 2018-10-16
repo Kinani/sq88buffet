@@ -9,6 +9,7 @@ namespace SQ88Buffet.Services
     public interface IPersonRepository
     {
         Task<List<Person>> GetAllPersonsData();
+        Task<List<Person>> GetAllPersonsData(string rank);
         Task<Person> GetPersonData(int id);
         Task DeleteAllPersons();
         Task DeletePerson(int id);

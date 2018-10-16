@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQ88Buffet.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,13 @@ namespace SQ88Buffet.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PersonsMangPage : ContentPage
 	{
+        public PersonsMangViewModel _personsMangViewModel;
+
 		public PersonsMangPage ()
 		{
-			InitializeComponent ();
+            InitializeComponent();
+            _personsMangViewModel = new PersonsMangViewModel(Navigation);
+            BindingContext = _personsMangViewModel;
 		}
 	}
 }

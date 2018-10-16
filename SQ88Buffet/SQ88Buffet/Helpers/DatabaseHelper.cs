@@ -28,6 +28,12 @@ namespace SQ88Buffet.Helpers
             return sqliteconnection.Table<Person>().ToListAsync();
         }
 
+        public Task<List<Person>> GetAllPersonsData(string rank)
+        {
+            //return (from data in sqliteconnection.Table<Product>() select data).ToList();
+            return sqliteconnection.Table<Person>().Where(x => x.Rank == rank).ToListAsync();
+        }
+
         public Task<Person> GetPersonData(int id)
         {
             return sqliteconnection.Table<Person>().FirstOrDefaultAsync(p => p.Id == id);

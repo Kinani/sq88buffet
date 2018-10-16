@@ -29,6 +29,11 @@ namespace SQ88Buffet.Services
             return await _databaseHelper.GetAllPersonsData();
         }
 
+        public async Task<List<Person>> GetAllPersonsData(string rank)
+        {
+            return await _databaseHelper.GetAllPersonsData(rank);
+        }
+
         public async Task<Person> GetPersonData(int id)
         {
             return await _databaseHelper.GetPersonData(id);

@@ -12,7 +12,7 @@ namespace SQ88Buffet.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Rank { get; set; }
-        public float Balance { get; set; }
+        public decimal Balance { get; set; }
         public DateTime LastBilled { get; set; }
     }
 }

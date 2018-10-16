@@ -5,10 +5,6 @@
              x:Name="ProductsOptionsPage">
     <ContentPage.Content>
         <StackLayout>
-            <!-- Place new controls here -->
-            <Label Text="Welcome to Xamarin.Formswses!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
             <ListView x:Name="PagesListView" HasUnevenRows="True" SeparatorColor="Black" 
                   ItemsSource="{Binding ProductOptions}">
                 <ListView.ItemTemplate>
