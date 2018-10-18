@@ -20,14 +20,20 @@ namespace SQ88Buffet.ViewModels
         public ICommand NavigateToUpdateProdPageCommand { get; private set; }
         public ICommand NavigateToDeleteProdPageCommand { get; private set; }
 
-        public PickProductsViewModel(INavigation navigation)
+        bool viewWithCategory = false;
+
+        public PickProductsViewModel(INavigation navigation, ProductsCateg category = null)
         {
             _navigation = navigation;
             _product = new Product();
             _productRepository = new ProductRepository();
             
             ProductsList = new ObservableCollection<Product>();
-            Category = "Drinks";
+            if (category != null)
+            {
+                Category = category.ProdType;
+                viewWithCategory = true;
+            }
 
             ViewAllProductsCommand = new Command(async () => await ShowAllProducts(Category));
             SaveAndProccedCommand = new Command(async () => await SavePurchasesAndProcced());
@@ -55,7 +61,7 @@ namespace SQ88Buffet.ViewModels
         {
             ProductsList = new ObservableCollection<Product>(await _productRepository.GetAllProductData());
         }
-        private async Task FetchAllProductsWithCategory(string category)
+        public async Task FetchAllProductsWithCategory(string category)
         {
             ProductsList = new ObservableCollection<Product>(
                 await _productRepository.GetAllProductData(category));

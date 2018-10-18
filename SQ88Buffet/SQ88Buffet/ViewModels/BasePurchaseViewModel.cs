@@ -38,20 +38,20 @@ namespace SQ88Buffet.ViewModels
 
         public int UnitsOfProduct
         {
-            get => _purchase.UnitsOfProduct;
+            get => int.TryParse(_purchase.UnitsOfProduct.ToString(), out unitsOfProductTemp) ? unitsOfProductTemp : 0;
             set
             {
-                _purchase.UnitsOfProduct = value;
+                _purchase.UnitsOfProduct = int.TryParse(value.ToString(), out unitsOfProductTemp) ? unitsOfProductTemp : 0;
                 NotifyPropertyChanged("UnitsOfProduct");
             }
         }
         
         public decimal PurchaseValue
         {
-            get => _purchase.PurchaseValue;
+            get => decimal.TryParse(_purchase.PurchaseValue.ToString(), out purchaseValueTemp) ? purchaseValueTemp : 0;
             set
             {
-                _purchase.PurchaseValue = value;
+                _purchase.PurchaseValue = decimal.TryParse(value.ToString(), out purchaseValueTemp) ? purchaseValueTemp : 0;
                 NotifyPropertyChanged("PurchaseValue");
             }
         }
@@ -77,6 +77,9 @@ namespace SQ88Buffet.ViewModels
         }
 
         ObservableCollection<Purchase> _purchasesList;
+        private decimal purchaseValueTemp;
+        private int unitsOfProductTemp;
+
         public ObservableCollection<Purchase> PurchasesList
         {
             get => _purchasesList;
