@@ -9,10 +9,11 @@ namespace SQ88Buffet.ViewModels
 {
     public class PurchaseViewModel : BasePurchaseViewModel
     {
-        public PurchaseViewModel(INavigation navigation)
+        public PurchaseViewModel()
         {
-            _navigation = navigation;
+            
             _purchase = new Purchase();
+            _purchase.UnitsOfProduct = 4;
             _purchaseRepository = new PurchaseRepository();
 
 

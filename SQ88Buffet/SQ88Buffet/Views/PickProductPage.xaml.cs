@@ -21,7 +21,7 @@ namespace SQ88Buffet.Views
 		{
 			InitializeComponent ();
             _PickProductsViewModel = new PickProductsViewModel(Navigation, ProductsCategory);
-            PurchaseViewModel = new PurchaseViewModel(Navigation);
+            PurchaseViewModel = new PurchaseViewModel();
             BindingContext = _PickProductsViewModel;
             _ProductCategory = ProductsCategory;
             Debug.WriteLine(_ProductCategory.ProdType);
