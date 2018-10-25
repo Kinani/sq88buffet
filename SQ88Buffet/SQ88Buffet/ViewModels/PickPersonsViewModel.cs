@@ -14,11 +14,15 @@ namespace SQ88Buffet.ViewModels
     public class PickPersonsViewModel : BasePersonViewModel
     {
         public ICommand ViewAllPersonsCommand { get; private set; }
-        public ICommand NavigateToUpdatePersPageCommand { get; private set; }
+        public ICommand ClickOnPersCommand { get; private set; }
         public ICommand NavigateToDeletePersPageCommand { get; private set; }
+        public ICommand ChangeRankToOfficersCommand { get; private set; }
+        public ICommand ChangeRankToWOfficersCommand { get; private set; }
+        public ICommand ChangeRankToSoldiersCommand { get; private set; }
 
+        bool _burchaseOngoing = false;
 
-        public PickPersonsViewModel(INavigation navigation)
+        public PickPersonsViewModel(INavigation navigation, bool burchaseOngoing = false)
         {
             _navigation = navigation;
             _person = new Person();
@@ -27,15 +31,69 @@ namespace SQ88Buffet.ViewModels
             PersonsList = new ObservableCollection<Person>();
             Rank = "Officer";
 
-            NavigateToUpdatePersPageCommand = new Command(async (e) => await NavigateToUpdatePersPage(e));
+            _burchaseOngoing = burchaseOngoing;
+
+            ClickOnPersCommand = new Command(async (e) => await ClickOnPers(e));
             NavigateToDeletePersPageCommand = new Command(async (e) => await NavigateToDeletePersPage(e));
 
+            ChangeRankToOfficersCommand = new Command(async (e) => await ChangeRankToOfficers(e));
+            ChangeRankToWOfficersCommand = new Command(async (e) => await ChangeRankToWOfficers(e));
+            ChangeRankToSoldiersCommand = new Command(async (e) => await ChangeRankToSoldiers(e));
+
         }
+
+        private async Task ChangeRankToSoldiers(object e)
+        {
+            Rank = "Soldier";
+            await FetchAllPersonsWithRank(Rank);
+
+
+            StackLayout stack = (e as StackLayout);
+            Button officers = stack.FindByName<Button>("BtnOfficers");
+            Button wofficers = stack.FindByName<Button>("BtnWOfficers");
+            Button soldiers = stack.FindByName<Button>("BtnSoldiers");
+
+            officers.IsEnabled = false;
+            wofficers.IsEnabled = true;
+            soldiers.IsEnabled = true;
+        }
+
+        private async Task ChangeRankToWOfficers(object e)
+        {
+            Rank = "Warrant Officer";
+            await FetchAllPersonsWithRank(Rank);
+
+
+            StackLayout stack = (e as StackLayout);
+            Button officers = stack.FindByName<Button>("BtnOfficers");
+            Button wofficers = stack.FindByName<Button>("BtnWOfficers");
+            Button soldiers = stack.FindByName<Button>("BtnSoldiers");
+
+            officers.IsEnabled = true;
+            wofficers.IsEnabled = false;
+            soldiers.IsEnabled = true;
+        }
+
+        private async Task ChangeRankToOfficers(object e)
+        {
+            Rank = "Officer";
+            await FetchAllPersonsWithRank(Rank);
+
+            StackLayout stack = (e as StackLayout);
+            Button officers = stack.FindByName<Button>("BtnOfficers");
+            Button wofficers = stack.FindByName<Button>("BtnWOfficers");
+            Button soldiers = stack.FindByName<Button>("BtnSoldiers");
+
+            officers.IsEnabled = false;
+            wofficers.IsEnabled = true;
+            soldiers.IsEnabled = true;
+        }
+
         public async Task FetchAllPersons()
         {
             PersonsList = new ObservableCollection<Person>(await _personRepository.GetAllPersonsData());
         }
-        private async Task FetchAllPersonsWithCategory(string rank)
+        private async Task FetchAllPersonsWithRank(string rank)
         {
             PersonsList = new ObservableCollection<Person>(
                 await _personRepository.GetAllPersonsData(rank));
@@ -46,10 +104,17 @@ namespace SQ88Buffet.ViewModels
             await _navigation.PushAsync(new AddEditPersonPage(selectedPers, true));
         }
 
-        private async Task NavigateToUpdatePersPage(object e)
+        private async Task ClickOnPers(object e)
         {
-            Person selectedPers = (e as Person);
-            await _navigation.PushAsync(new AddEditPersonPage(selectedPers));
+            if(!_burchaseOngoing)
+            {
+                Person selectedPers = (e as Person);
+                await _navigation.PushAsync(new AddEditPersonPage(selectedPers));
+            }
+            else
+            {
+                await _navigation.PushAsync(new PurchaseComplete());
+            }
         }
     }
 }

@@ -12,75 +12,114 @@ namespace SQ88Buffet.ViewModels
 {
     public class BasePurchaseViewModel : INotifyPropertyChanged
     {
-        public Purchase _purchase;
+        public Purchase Purchase;
         public INavigation _navigation;
         public IPurchaseRepository _purchaseRepository;
 
         public int PersonId
         {
-            get => _purchase.PersonId;
+            get => Purchase.PersonId;
             set
             {
-                _purchase.PersonId = value;
+                Purchase.PersonId = value;
                 NotifyPropertyChanged("PersonId");
             }
         }
 
         public int ProductId
         {
-            get => _purchase.ProductId;
+            get => Purchase.ProductId;
             set
             {
-                _purchase.ProductId = value;
+                Purchase.ProductId = value;
                 NotifyPropertyChanged("ProductId");
             }
         }
-
-        public int UnitsOfProduct
+        public string ProductName
         {
-            get => int.TryParse(_purchase.UnitsOfProduct.ToString(), out unitsOfProductTemp) ? unitsOfProductTemp : 0;
+            get => Purchase.ProductName == string.Empty ? null : Purchase.ProductName;
             set
             {
-                _purchase.UnitsOfProduct = int.TryParse(value.ToString(), out unitsOfProductTemp) ? unitsOfProductTemp : 0;
+                Purchase.ProductName = value;
+                NotifyPropertyChanged("ProductName");
+            }
+        }
+        public decimal ProductQuantity
+        {
+            get => int.TryParse(Purchase.ProductQuantity.ToString(), out quantityTemp) ? quantityTemp : 0;
+            set
+            {
+                Purchase.ProductQuantity = int.TryParse(value.ToString(), out quantityTemp) ? quantityTemp : 0;
+                NotifyPropertyChanged("ProductQuantity");
+            }
+        }
+
+        public decimal ProductPrice
+        {
+            get => decimal.TryParse(Purchase.ProductPrice.ToString(), out priceTemp) ? priceTemp : 0;
+            set
+            {
+                Purchase.ProductPrice = decimal.TryParse(value.ToString(), out priceTemp) ? priceTemp : 0;
+                NotifyPropertyChanged("ProductPrice");
+            }
+        }
+        public int UnitsOfProduct
+        {
+            get => int.TryParse(Purchase.UnitsOfProduct.ToString(), out unitsOfProductTemp) ? unitsOfProductTemp : 0;
+            set
+            {
+                Purchase.UnitsOfProduct = int.TryParse(value.ToString(), out unitsOfProductTemp) ? unitsOfProductTemp : 0;
                 NotifyPropertyChanged("UnitsOfProduct");
             }
         }
         
         public decimal PurchaseValue
         {
-            get => decimal.TryParse(_purchase.PurchaseValue.ToString(), out purchaseValueTemp) ? purchaseValueTemp : 0;
+            get => decimal.TryParse(Purchase.PurchaseValue.ToString(), out purchaseValueTemp) ? purchaseValueTemp : 0;
             set
             {
-                _purchase.PurchaseValue = decimal.TryParse(value.ToString(), out purchaseValueTemp) ? purchaseValueTemp : 0;
+                Purchase.PurchaseValue = decimal.TryParse(value.ToString(), out purchaseValueTemp) ? purchaseValueTemp : 0;
                 NotifyPropertyChanged("PurchaseValue");
             }
         }
 
         public bool Billed
         {
-            get => _purchase.Billed;
+            get => Purchase.Billed;
             set
             {
-                _purchase.Billed = value;
+                Purchase.Billed = value;
                 NotifyPropertyChanged("Billed");
+            }
+        }
+
+        public bool IsCompleted
+        {
+            get => Purchase.IsCompleted;
+            set
+            {
+                Purchase.IsCompleted = value;
+                NotifyPropertyChanged("IsCompleted");
             }
         }
 
         public DateTime PurchaseDate
         {
-            get => _purchase.PurchaseDate;
+            get => Purchase.PurchaseDate;
             set
             {
-                _purchase.PurchaseDate = value;
+                Purchase.PurchaseDate = value;
                 NotifyPropertyChanged("PurchaseDate");
             }
         }
 
-        ObservableCollection<Purchase> _purchasesList;
+        List<Purchase> _purchasesList;
         private decimal purchaseValueTemp;
         private int unitsOfProductTemp;
+        private int quantityTemp;
+        private decimal priceTemp;
 
-        public ObservableCollection<Purchase> PurchasesList
+        public List<Purchase> PurchasesList
         {
             get => _purchasesList;
             set

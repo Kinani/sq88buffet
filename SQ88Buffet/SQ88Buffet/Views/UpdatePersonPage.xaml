@@ -5,15 +5,27 @@
              Title="Update person"
              x:Name="UpdatePerPage">
     <ContentPage.Content>
-        <StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackLayout x:Name="BtnsStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button x:Name="BtnOfficers" Text="Officers" WidthRequest="80" Command="{Binding Source={x:Reference UpdatePerPage}, 
+                    Path=BindingContext.ChangeRankToOfficersCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
+                <Button x:Name="BtnWOfficers" Text="W/Officer" WidthRequest="80" Command="{Binding Source={x:Reference UpdatePerPage}, 
+                    Path=BindingContext.ChangeRankToWOfficersCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
+                <Button x:Name="BtnSoldiers" Text="Soldiers" WidthRequest="80" Command="{Binding Source={x:Reference UpdatePerPage}, 
+                    Path=BindingContext.ChangeRankToSoldiersCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
+            </StackLayout>
             <ListView x:Name="PersonsListView" HasUnevenRows="False"  
-                  ItemsSource="{Binding PersonsList}">
+                  ItemsSource="{Binding PersonsList}" Grid.Row="1">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Grid BackgroundColor="DimGray" Margin="3">
                                 <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={x:Reference UpdatePerPage}, Path=BindingContext.NavigateToUpdatePersPageCommand}" 
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference UpdatePerPage}, Path=BindingContext.ClickOnPersCommand}" 
                                                       CommandParameter="{Binding .}"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
                                 <Grid.RowDefinitions>
@@ -32,6 +44,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -20,6 +20,7 @@ namespace SQ88Buffet.ViewModels
 
         decimal priceTemp;
         int quantityTemp;
+        int unitsOfProductTemp;
 
         public string Name
         {
@@ -31,6 +32,15 @@ namespace SQ88Buffet.ViewModels
             }
         }
 
+        public int UnitsOfProduct
+        {
+            get => int.TryParse(_product.UnitsOfProduct.ToString(), out unitsOfProductTemp) ? unitsOfProductTemp : 0;
+            set
+            {
+                _product.UnitsOfProduct = int.TryParse(value.ToString(), out unitsOfProductTemp) ? unitsOfProductTemp : 0;
+                NotifyPropertyChanged("UnitsOfProduct");
+            }
+        }
         public decimal Quantity
         {
             get => int.TryParse(_product.Quantity.ToString(), out quantityTemp) ? quantityTemp : 0;
@@ -73,6 +83,7 @@ namespace SQ88Buffet.ViewModels
         }
 
         ObservableCollection<Product> _productsList;
+
         public ObservableCollection<Product> ProductsList
         {
             get => _productsList;

@@ -6,8 +6,13 @@
              x:Name="this"
              Title="Picker">
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout x:Name="BtnsStack" Orientation="Horizontal">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackLayout x:Name="BtnsStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Button x:Name="BtnDrinks" Text="Drinks" WidthRequest="80" Command="{Binding Source={x:Reference this}, 
                     Path=BindingContext.ChangeCategToDrinksCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
                 <Button x:Name="BtnFood" Text="Food" WidthRequest="80" Command="{Binding Source={x:Reference this}, 
@@ -16,7 +21,9 @@
                     Path=BindingContext.ChangeCategToSnacksCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
             </StackLayout>
         <ListView HasUnevenRows="False"  
-                  ItemsSource="{Binding ProductsList}">
+                  ItemsSource="{Binding ProductsList}"
+                  Grid.Row="1"
+                  x:Name="ProductsListView">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -30,10 +37,16 @@
                                 <Label Text="{Binding Price, StringFormat='Price: {0:N}'}" Font="10" TextColor="Black"></Label>
                             </StackLayout>
                             <StackLayout Grid.Column="1" Orientation="Horizontal">
-                                <Button x:Name="BtnIncrease" Text="+" FontSize="Micro" WidthRequest="30" HeightRequest="30"></Button>
-                                <Button x:Name="BtnDecrease" Text="-" FontSize="Micro" WidthRequest="30" HeightRequest="30"></Button>
-                                <Label x:Name="TxtUnits" Text="{Binding PurchaseViewModel.UnitsOfProduct, Source={x:StaticResource ViewModelLocator}
-                                    ,StringFormat='Units: {0}'}" FontSize="10" 
+                                    <Button x:Name="BtnIncrease" Text="+" FontSize="Micro" WidthRequest="30" HeightRequest="30" 
+                                            Command="{Binding Source={x:StaticResource ViewModelLocator}, 
+                    Path=PurchaseViewModel.IncreaseUnitsCommand}" 
+                                            CommandParameter="{Binding .}"></Button>
+                                    <Button x:Name="BtnDecrease" Text="-" FontSize="Micro" WidthRequest="30" HeightRequest="30" 
+                                            Command="{Binding Source={x:StaticResource ViewModelLocator}, 
+                    Path=PurchaseViewModel.DecreaseUnitsCommand}" 
+                                            CommandParameter="{Binding .}"></Button>
+                                    <Label x:Name="TxtUnits" Text="{Binding UnitsOfProduct
+                                    ,StringFormat='Units: {0}', Mode=TwoWay}" FontSize="10" 
                                        WidthRequest="30" HeightRequest="30" Margin="0,5,0,0"></Label>
                             </StackLayout>
                         </Grid>
@@ -41,6 +54,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        </StackLayout>
+            <StackLayout Orientation="Horizontal" Grid.Row="2" HorizontalOptions="CenterAndExpand" Margin="5">
+                <Button x:Name="ContinueButton" Command="{Binding Source={x:StaticResource ViewModelLocator},
+                    Path=PurchaseViewModel.ContinueToSelectPersCommand}" BorderRadius="0"
+                    Text="Confirm" FontAttributes="Bold" TextColor="White" BackgroundColor="#5989B5"/>
+                <Button x:Name="DiscardButton" Command="{Binding Source={x:StaticResource ViewModelLocator},
+                    Path=PurchaseViewModel.DiscardAllCommand}" BorderRadius="0"
+                    Text="Discard" FontAttributes="Bold" TextColor="White" BackgroundColor="#c90000"/>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
