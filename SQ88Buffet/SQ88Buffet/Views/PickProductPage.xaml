@@ -6,6 +6,15 @@
              x:Name="this"
              Title="Picker">
     <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="BtnsStack" Orientation="Horizontal">
+                <Button x:Name="BtnDrinks" Text="Drinks" WidthRequest="80" Command="{Binding Source={x:Reference this}, 
+                    Path=BindingContext.ChangeCategToDrinksCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
+                <Button x:Name="BtnFood" Text="Food" WidthRequest="80" Command="{Binding Source={x:Reference this}, 
+                    Path=BindingContext.ChangeCategToFoodCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
+                <Button x:Name="BtnSnacks" Text="Snacks" WidthRequest="80" Command="{Binding Source={x:Reference this}, 
+                    Path=BindingContext.ChangeCategToSnacksCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
+            </StackLayout>
         <ListView HasUnevenRows="False"  
                   ItemsSource="{Binding ProductsList}">
             <ListView.ItemTemplate>
@@ -32,5 +41,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

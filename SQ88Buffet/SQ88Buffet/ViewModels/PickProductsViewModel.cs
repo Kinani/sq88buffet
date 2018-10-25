@@ -17,6 +17,9 @@ namespace SQ88Buffet.ViewModels
         public ICommand SaveAndProccedCommand { get; private set; }
         public ICommand AddPurchaseCommand { get; private set; }
         public ICommand DiscardAllCommand { get; private set; }
+        public ICommand ChangeCategToDrinksCommand { get; private set; }
+        public ICommand ChangeCategToFoodCommand { get; private set; }
+        public ICommand ChangeCategToSnacksCommand { get; private set; }
         public ICommand NavigateToUpdateProdPageCommand { get; private set; }
         public ICommand NavigateToDeleteProdPageCommand { get; private set; }
 
@@ -39,10 +42,58 @@ namespace SQ88Buffet.ViewModels
             SaveAndProccedCommand = new Command(async () => await SavePurchasesAndProcced());
             AddPurchaseCommand = new Command(async () => await AddPurchaseOrIncreaseQuantity());
             DiscardAllCommand = new Command(async () => await DiscardAll());
+            ChangeCategToDrinksCommand = new Command(async (e) => await ChangeCategToDrinks(e));
+            ChangeCategToFoodCommand = new Command(async (e) => await ChangeCategToFood(e));
+            ChangeCategToSnacksCommand = new Command(async (e) => await ChangeCategToSnacks(e));
 
             NavigateToUpdateProdPageCommand = new Command(async (e) => await NavigateToUpdateProdPage(e));
             NavigateToDeleteProdPageCommand = new Command(async (e) => await NavigateToDeleteProdPage(e));
 
+        }
+
+        private async Task ChangeCategToSnacks(object e)
+        {
+            Category = "Sancks";
+            await FetchAllProductsWithCategory(Category);
+
+            StackLayout stack = (e as StackLayout);
+            Button food = stack.FindByName<Button>("BtnFood");
+            Button drinks = stack.FindByName<Button>("BtnDrinks");
+            Button snacks = stack.FindByName<Button>("BtnSnacks");
+
+            food.IsEnabled = true;
+            drinks.IsEnabled = true;
+            snacks.IsEnabled = false;
+        }
+
+        private async Task ChangeCategToFood(object e)
+        {
+            Category = "Food";
+            await FetchAllProductsWithCategory(Category);
+
+            StackLayout stack = (e as StackLayout);
+            Button food = stack.FindByName<Button>("BtnFood");
+            Button drinks = stack.FindByName<Button>("BtnDrinks");
+            Button snacks = stack.FindByName<Button>("BtnSnacks");
+
+            food.IsEnabled = false;
+            drinks.IsEnabled = true;
+            snacks.IsEnabled = true;
+        }
+
+        private async Task ChangeCategToDrinks(object e)
+        {
+            Category = "Drinks";
+            await FetchAllProductsWithCategory(Category);
+
+            StackLayout stack = (e as StackLayout);
+            Button food = stack.FindByName<Button>("BtnFood");
+            Button drinks = stack.FindByName<Button>("BtnDrinks");
+            Button snacks = stack.FindByName<Button>("BtnSnacks");
+
+            food.IsEnabled = true;
+            drinks.IsEnabled = false;
+            snacks.IsEnabled = true;
         }
 
         private async Task NavigateToDeleteProdPage(object e)

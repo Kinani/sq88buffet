@@ -15,13 +15,13 @@ namespace SQ88Buffet.Views
 	public partial class PickProductPage : ContentPage
 	{
         public PickProductsViewModel _PickProductsViewModel { get; set; }
-        public PurchaseViewModel PurchaseViewModel { get; set; }
+        //public PurchaseViewModel PurchaseViewModel { get; set; }
         public ProductsCateg _ProductCategory { get; set; }
         public PickProductPage(ProductsCateg ProductsCategory)
 		{
 			InitializeComponent ();
             _PickProductsViewModel = new PickProductsViewModel(Navigation, ProductsCategory);
-            PurchaseViewModel = new PurchaseViewModel();
+            //PurchaseViewModel = new PurchaseViewModel();
             BindingContext = _PickProductsViewModel;
             _ProductCategory = ProductsCategory;
             Debug.WriteLine(_ProductCategory.ProdType);
