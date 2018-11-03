@@ -15,6 +15,8 @@ namespace SQ88Buffet.ViewModels
         public Purchase Purchase;
         public INavigation _navigation;
         public IPurchaseRepository _purchaseRepository;
+        public IProductRepository _productRepository;
+
 
         public int PersonId
         {
@@ -42,6 +44,15 @@ namespace SQ88Buffet.ViewModels
             {
                 Purchase.ProductName = value;
                 NotifyPropertyChanged("ProductName");
+            }
+        }
+        public string ProductCategory
+        {
+            get => Purchase.ProductCategory== string.Empty ? null : Purchase.ProductCategory;
+            set
+            {
+                Purchase.ProductName = value;
+                NotifyPropertyChanged("ProductCategory");
             }
         }
         public decimal ProductQuantity
@@ -113,19 +124,106 @@ namespace SQ88Buffet.ViewModels
             }
         }
 
-        List<Purchase> _purchasesList;
+        ObservableCollection<Purchase> _purchasesList;
+        ObservableCollection<Purchase> _interiorPurchasesList;
         private decimal purchaseValueTemp;
         private int unitsOfProductTemp;
         private int quantityTemp;
         private decimal priceTemp;
 
-        public List<Purchase> PurchasesList
+        ObservableCollection<Product> _productList;
+
+        public ObservableCollection<Product> ProductList
+        {
+            get => _productList;
+            set
+            {
+                _productList = value;
+                NotifyPropertyChanged("ProductList");
+            }
+        }
+
+
+        ObservableCollection<Product> _foodList;
+
+        public ObservableCollection<Product> FoodList
+        {
+            get => _foodList;
+            set
+            {
+                _foodList = value;
+                NotifyPropertyChanged("FoodList");
+            }
+        }
+        ObservableCollection<Product> _snacksList;
+
+        public ObservableCollection<Product> SnacksList
+        {
+            get => _snacksList;
+            set
+            {
+                _snacksList = value;
+                NotifyPropertyChanged("SnacksList");
+            }
+        }
+        ObservableCollection<Product> _drinksList;
+        private ObservableCollection<Purchase> _foodPurchasesList;
+        private ObservableCollection<Purchase> _drinksPurchasesList;
+        private ObservableCollection<Purchase> _snacksPurchasesList;
+
+        public ObservableCollection<Product> DrinksList
+        {
+            get => _drinksList;
+            set
+            {
+                _drinksList = value;
+                NotifyPropertyChanged("DrinksList");
+            }
+        }
+
+        public ObservableCollection<Purchase> PurchasesList
         {
             get => _purchasesList;
             set
             {
                 _purchasesList = value;
                 NotifyPropertyChanged("PurchasesList");
+            }
+        }
+        public ObservableCollection<Purchase> FoodPurchasesList
+        {
+            get => _foodPurchasesList;
+            set
+            {
+                _foodPurchasesList = value;
+                NotifyPropertyChanged("FoodPurchasesList");
+            }
+        }
+        public ObservableCollection<Purchase> DrinksPurchasesList
+        {
+            get => _drinksPurchasesList;
+            set
+            {
+                _drinksPurchasesList = value;
+                NotifyPropertyChanged("DrinksPurchasesList");
+            }
+        }
+        public ObservableCollection<Purchase> SnacksPurchasesList
+        {
+            get => _snacksPurchasesList;
+            set
+            {
+                _snacksPurchasesList = value;
+                NotifyPropertyChanged("SnacksPurchasesList");
+            }
+        }
+        public ObservableCollection<Purchase> InteriorPurchasesList
+        {
+            get => _interiorPurchasesList;
+            set
+            {
+                _interiorPurchasesList = value;
+                NotifyPropertyChanged("InteriorPurchasesList");
             }
         }
         #region INotifyPropertyChanged      

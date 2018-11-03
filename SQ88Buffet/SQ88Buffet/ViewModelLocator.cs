@@ -7,13 +7,13 @@ namespace SQ88Buffet
 {
     public class ViewModelLocator
     {
-        private PurchaseViewModel _purchaseViewModel = new PurchaseViewModel();
-        public PurchaseViewModel PurchaseViewModel
-        {
-            get
-            {
-                return _purchaseViewModel;
-            }
-        }
+        //private PurchaseViewModel _purchaseViewModel = new PurchaseViewModel();
+        //public PurchaseViewModel PurchaseViewModel
+        //{
+        //    get
+        //    {
+        //        return _purchaseViewModel;
+        //    }
+        //}
     }
 }

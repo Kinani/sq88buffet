@@ -14,6 +14,7 @@ namespace SQ88Buffet.Models
         public int ProductId { get; set; }
         public decimal ProductQuantity { get; set; }
         public string ProductName { get; set; }
+        public string ProductCategory { get; set; }
         public decimal ProductPrice { get; set; }
         public int UnitsOfProduct { get; set; }
         public decimal PurchaseValue { get; set; }

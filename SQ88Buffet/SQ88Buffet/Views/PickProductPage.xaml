@@ -5,6 +5,7 @@
              x:Class="SQ88Buffet.Views.PickProductPage"
              x:Name="this"
              Title="Picker">
+    
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -21,7 +22,7 @@
                     Path=BindingContext.ChangeCategToSnacksCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
             </StackLayout>
         <ListView HasUnevenRows="False"  
-                  ItemsSource="{Binding ProductsList}"
+                  ItemsSource="{Binding PurchasesList}"
                   Grid.Row="1"
                   x:Name="ProductsListView">
             <ListView.ItemTemplate>
@@ -33,21 +34,21 @@
                                 <ColumnDefinition Width="auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <StackLayout Orientation="Vertical">
-                                <Label Text="{Binding Name, StringFormat='Name: {0:N}'}" Font="10" TextColor="Black"></Label>
-                                <Label Text="{Binding Price, StringFormat='Price: {0:N}'}" Font="10" TextColor="Black"></Label>
+                                <Label Text="{Binding ProductName, StringFormat='Name: {0:N}'}" Font="10" TextColor="Black"></Label>
+                                <Label Text="{Binding ProductPrice, StringFormat='Price: {0:N}'}" Font="10" TextColor="Black"></Label>
                             </StackLayout>
                             <StackLayout Grid.Column="1" Orientation="Horizontal">
                                     <Button x:Name="BtnIncrease" Text="+" FontSize="Micro" WidthRequest="30" HeightRequest="30" 
-                                            Command="{Binding Source={x:StaticResource ViewModelLocator}, 
-                    Path=PurchaseViewModel.IncreaseUnitsCommand}" 
+                                            Command="{Binding Source={x:Reference this}, 
+                    Path=BindingContext.IncreaseUnitsCommand}" 
                                             CommandParameter="{Binding .}"></Button>
                                     <Button x:Name="BtnDecrease" Text="-" FontSize="Micro" WidthRequest="30" HeightRequest="30" 
-                                            Command="{Binding Source={x:StaticResource ViewModelLocator}, 
-                    Path=PurchaseViewModel.DecreaseUnitsCommand}" 
+                                            Command="{Binding Source={x:Reference this}, 
+                    Path=BindingContext.DecreaseUnitsCommand}" 
                                             CommandParameter="{Binding .}"></Button>
-                                    <Label x:Name="TxtUnits" Text="{Binding UnitsOfProduct
-                                    ,StringFormat='Units: {0}', Mode=TwoWay}" FontSize="10" 
-                                       WidthRequest="30" HeightRequest="30" Margin="0,5,0,0"></Label>
+                                    <Label Margin="5">Units: </Label>
+                                    <Entry x:Name="TxtUnits" Text="{Binding UnitsOfProduct}" FontSize="10" 
+                                       WidthRequest="30" HeightRequest="30" Keyboard="Numeric" Margin="5"></Entry>
                             </StackLayout>
                         </Grid>
                     </ViewCell>
@@ -55,11 +56,11 @@
             </ListView.ItemTemplate>
         </ListView>
             <StackLayout Orientation="Horizontal" Grid.Row="2" HorizontalOptions="CenterAndExpand" Margin="5">
-                <Button x:Name="ContinueButton" Command="{Binding Source={x:StaticResource ViewModelLocator},
-                    Path=PurchaseViewModel.ContinueToSelectPersCommand}" BorderRadius="0"
+                <Button x:Name="ContinueButton" Command="{Binding Source={x:Reference this},
+                    Path=BindingContext.ContinueToSelectPersCommand}" BorderRadius="0"
                     Text="Confirm" FontAttributes="Bold" TextColor="White" BackgroundColor="#5989B5"/>
-                <Button x:Name="DiscardButton" Command="{Binding Source={x:StaticResource ViewModelLocator},
-                    Path=PurchaseViewModel.DiscardAllCommand}" BorderRadius="0"
+                <Button x:Name="DiscardButton" Command="{Binding Source={x:Reference this},
+                    Path=BindingContext.DiscardAllCommand}" BorderRadius="0"
                     Text="Discard" FontAttributes="Bold" TextColor="White" BackgroundColor="#c90000"/>
             </StackLayout>
         </Grid>
