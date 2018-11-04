@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -23,7 +24,7 @@ namespace SQ88Buffet.ViewModels
         public ICommand ChangeCategToSnacksCommand { get; private set; }
 
         public string Category { get; set; }
-        
+
 
         public PurchaseViewModel(INavigation navigation, ProductsCateg category = null)
         {
@@ -40,7 +41,7 @@ namespace SQ88Buffet.ViewModels
             FoodPurchasesList = new ObservableCollection<Purchase>();
             InteriorPurchasesList = new ObservableCollection<Purchase>();
 
-            ProductList = new ObservableCollection<Product>();
+            ProductList = new List<Product>();
             FoodList = new ObservableCollection<Product>();
             SnacksList = new ObservableCollection<Product>();
             DrinksList = new ObservableCollection<Product>();
@@ -66,70 +67,152 @@ namespace SQ88Buffet.ViewModels
 
         private void PurchasesList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.NewItems != null)
+            {
+                foreach (Object item in e.NewItems)
+                {
+                    (item as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(item_PropertyChanged);
+                }
+            }
+            if (e.OldItems != null)
+            {
+                foreach (Object item in e.OldItems)
+                {
+                    (item as INotifyPropertyChanged).PropertyChanged -= new PropertyChangedEventHandler(item_PropertyChanged);
+                }
+            }
+        }
+
+        private void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var pur = sender as Purchase;
         }
 
         private void SnacksPurchasesList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         private void FoodPurchasesList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         private void DrinksPurchasesList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            
-            throw new NotImplementedException();
+
+
         }
 
-        private void changePurchasesContextAndSave()
+        private void changePurchasesContextAndSave(string oldCateg)
         {
-            DrinksPurchasesList.Clear();
-            FoodPurchasesList.Clear();
-            SnacksPurchasesList.Clear();
+            //switch (oldCateg)
+            //{
+            //    case "Drinks":
+            //        DrinksPurchasesList.Clear();
+            //        break;
+            //    case "Food":
+            //        FoodPurchasesList.Clear();
+            //        break;
+            //    case "Snacks":
+            //        SnacksPurchasesList.Clear();
+            //        break;
+            //    default:
+            //        break;
+            //}
             foreach (Purchase item in PurchasesList)
             {
 
                 //if (item.UnitsOfProduct > 0) 
                 //{
- 
-                    //InteriorPurchasesList.Add(item);
-                    switch (item.ProductCategory)
-                    {
-                        case "Drinks":
+
+                //InteriorPurchasesList.Add(item);
+                switch (item.ProductCategory)
+                {
+                    case "Drinks":
+                        {
+                            if (item.UnitsOfProduct > 0)
                             {
-                                DrinksPurchasesList.Add(item); 
-                                break;
+                                foreach (var drinkItem in DrinksPurchasesList)
+                                {
+                                    if (drinkItem.ProductId == item.ProductId)
+                                    {
+                                        int indx = DrinksPurchasesList.IndexOf(drinkItem);
+                                        DrinksPurchasesList.RemoveAt(indx);
+                                        DrinksPurchasesList.Add(item);
+                                        break;
+                                    }
+                                }
                             }
-                        case "Food":
-                            {
-                                FoodPurchasesList.Add(item);
-                                break;
-                            }
-                        case "Snacks":
-                            {
-                                SnacksPurchasesList.Add(item);
-                                break;
-                            }
-                        default:
+
+                            //DrinksPurchasesList.Add(item); 
                             break;
-                    }
+                        }
+                    case "Food":
+                        {
+                            if (item.UnitsOfProduct > 0)
+                            {
+                                foreach (var foodItem in FoodPurchasesList)
+                                {
+                                    if (foodItem.ProductId == item.ProductId)
+                                    {
+                                        int indx = FoodPurchasesList.IndexOf(foodItem);
+                                        FoodPurchasesList.RemoveAt(indx);
+                                        FoodPurchasesList.Add(item);
+                                        break;
+                                    }
+                                }
+                            }
+                            //FoodPurchasesList.Add(item);
+                            break;
+                        }
+                    case "Snacks":
+                        {
+
+                            if (item.UnitsOfProduct > 0)
+                            {
+                                foreach (var snacksItem in SnacksPurchasesList)
+                                {
+                                    if (snacksItem.ProductId == item.ProductId)
+                                    {
+                                        int indx = SnacksPurchasesList.IndexOf(snacksItem);
+                                        SnacksPurchasesList.RemoveAt(indx);
+                                        SnacksPurchasesList.Add(item);
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    default:
+                        break;
+                }
                 //}
             }
             //PurchasesList.Clear();
             switch (Category)
             {
                 case "Drinks":
-                    PurchasesList = new ObservableCollection<Purchase>(DrinksPurchasesList);
+                    //PurchasesList = new ObservableCollection<Purchase>(DrinksPurchasesList);
+                    PurchasesList.Clear();
+                    foreach (var item in DrinksPurchasesList)
+                    {
+                        PurchasesList.Add(item);
+                    }
                     break;
                 case "Food":
-                    PurchasesList = new ObservableCollection<Purchase>(FoodPurchasesList);
+                    PurchasesList.Clear();
+                    foreach (var item in FoodPurchasesList)
+                    {
+                        PurchasesList.Add(item);
+                    }
                     break;
                 case "Snacks":
-                    PurchasesList = new ObservableCollection<Purchase>(SnacksPurchasesList);
+                    PurchasesList.Clear();
+                    foreach (var item in SnacksPurchasesList)
+                    {
+                        PurchasesList.Add(item);
+                    }
                     break;
                 default:
                     break;
@@ -150,8 +233,9 @@ namespace SQ88Buffet.ViewModels
 
         private async Task ChangeCategToSnacks(object e)
         {
+            string tempCateg = Category;
             Category = "Snacks";
-            changePurchasesContextAndSave();
+            changePurchasesContextAndSave(tempCateg);
 
 
             StackLayout stack = (e as StackLayout);
@@ -166,8 +250,9 @@ namespace SQ88Buffet.ViewModels
 
         private async Task ChangeCategToFood(object e)
         {
+            string tempCateg = Category;
             Category = "Food";
-            changePurchasesContextAndSave();
+            changePurchasesContextAndSave(tempCateg);
 
             StackLayout stack = (e as StackLayout);
             Button food = stack.FindByName<Button>("BtnFood");
@@ -181,8 +266,9 @@ namespace SQ88Buffet.ViewModels
 
         private async Task ChangeCategToDrinks(object e)
         {
+            string tempCateg = Category;
             Category = "Drinks";
-            changePurchasesContextAndSave();
+            changePurchasesContextAndSave(tempCateg);
 
 
             StackLayout stack = (e as StackLayout);
@@ -198,14 +284,15 @@ namespace SQ88Buffet.ViewModels
         public async Task PopulatePurchases()
         {
 
-            ProductList = new ObservableCollection<Product>();
-            PurchasesList = new ObservableCollection<Purchase>();
+            ProductList = new List<Product>();
+            //PurchasesList = new ObservableCollection<Purchase>();
+            PurchasesList.Clear();
 
             //DrinksList = new ObservableCollection<Product>(await _productRepository.GetAllProductData("Drinks"));
             //FoodList = new ObservableCollection<Product>(await _productRepository.GetAllProductData("Food"));
             //SnacksList = new ObservableCollection<Product>(await _productRepository.GetAllProductData("Snacks"));
 
-            ProductList = new ObservableCollection<Product>(await _productRepository.GetAllProductData());
+            ProductList = new List<Product>(await _productRepository.GetAllProductData());
 
             //switch (Category)
             //{
@@ -240,7 +327,7 @@ namespace SQ88Buffet.ViewModels
 
                             DrinksPurchasesList.Add(temp);
                             PurchasesList.Add(temp);
-                            break; 
+                            break;
                         }
                     case "Food":
                         {
@@ -298,7 +385,7 @@ namespace SQ88Buffet.ViewModels
             //    default:
             //        break;
             //}
-            
+
         }
 
         private async Task DiscardAll()
@@ -315,18 +402,14 @@ namespace SQ88Buffet.ViewModels
         {
             Purchase tempPurchase = (e as Purchase);
             int indx = PurchasesList.IndexOf(tempPurchase);
-            tempPurchase.UnitsOfProduct--;
-            PurchasesList.RemoveAt(indx);
-            PurchasesList.Add(tempPurchase);
+            PurchasesList[indx].UnitsOfProduct--;
         }
 
         private async Task IncreaseUnits(object e)
         {
             Purchase tempPurchase = (e as Purchase);
             int indx = PurchasesList.IndexOf(tempPurchase);
-            tempPurchase.UnitsOfProduct++;
-            PurchasesList.RemoveAt(indx);
-            PurchasesList.Add(tempPurchase);
+            PurchasesList[indx].UnitsOfProduct++;
         }
     }
 }

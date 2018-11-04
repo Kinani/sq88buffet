@@ -131,9 +131,9 @@ namespace SQ88Buffet.ViewModels
         private int quantityTemp;
         private decimal priceTemp;
 
-        ObservableCollection<Product> _productList;
+        List<Product> _productList;
 
-        public ObservableCollection<Product> ProductList
+        public List<Product> ProductList
         {
             get => _productList;
             set
