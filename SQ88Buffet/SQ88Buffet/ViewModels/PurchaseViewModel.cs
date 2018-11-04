@@ -22,9 +22,10 @@ namespace SQ88Buffet.ViewModels
         public ICommand ChangeCategToDrinksCommand { get; private set; }
         public ICommand ChangeCategToFoodCommand { get; private set; }
         public ICommand ChangeCategToSnacksCommand { get; private set; }
-
         public string Category { get; set; }
 
+
+        private List<Purchase> FinalPurchases;
 
         public PurchaseViewModel(INavigation navigation, ProductsCateg category = null)
         {
@@ -42,6 +43,7 @@ namespace SQ88Buffet.ViewModels
             InteriorPurchasesList = new ObservableCollection<Purchase>();
 
             ProductList = new List<Product>();
+            FinalPurchases = new List<Purchase>();
             FoodList = new ObservableCollection<Product>();
             SnacksList = new ObservableCollection<Product>();
             DrinksList = new ObservableCollection<Product>();
@@ -104,29 +106,10 @@ namespace SQ88Buffet.ViewModels
 
         }
 
-        private void changePurchasesContextAndSave(string oldCateg)
+        private void changePurchasesContextAndSave()
         {
-            //switch (oldCateg)
-            //{
-            //    case "Drinks":
-            //        DrinksPurchasesList.Clear();
-            //        break;
-            //    case "Food":
-            //        FoodPurchasesList.Clear();
-            //        break;
-            //    case "Snacks":
-            //        SnacksPurchasesList.Clear();
-            //        break;
-            //    default:
-            //        break;
-            //}
             foreach (Purchase item in PurchasesList)
             {
-
-                //if (item.UnitsOfProduct > 0) 
-                //{
-
-                //InteriorPurchasesList.Add(item);
                 switch (item.ProductCategory)
                 {
                     case "Drinks":
@@ -144,8 +127,6 @@ namespace SQ88Buffet.ViewModels
                                     }
                                 }
                             }
-
-                            //DrinksPurchasesList.Add(item); 
                             break;
                         }
                     case "Food":
@@ -163,7 +144,6 @@ namespace SQ88Buffet.ViewModels
                                     }
                                 }
                             }
-                            //FoodPurchasesList.Add(item);
                             break;
                         }
                     case "Snacks":
@@ -187,13 +167,11 @@ namespace SQ88Buffet.ViewModels
                     default:
                         break;
                 }
-                //}
             }
-            //PurchasesList.Clear();
+
             switch (Category)
             {
                 case "Drinks":
-                    //PurchasesList = new ObservableCollection<Purchase>(DrinksPurchasesList);
                     PurchasesList.Clear();
                     foreach (var item in DrinksPurchasesList)
                     {
@@ -217,25 +195,13 @@ namespace SQ88Buffet.ViewModels
                 default:
                     break;
             }
-            //PurchasesList.Clear();
-            //foreach (Product item in ProductList)
-            //{
-            //    PurchasesList.Add(new Purchase()
-            //    {
-            //        ProductId = item.Id,
-            //        ProductName = item.Name,
-            //        ProductPrice = item.Price,
-            //        ProductQuantity = item.Quantity,
-            //        IsCompleted = false
-            //    });
-            //}
+
         }
 
         private async Task ChangeCategToSnacks(object e)
         {
-            string tempCateg = Category;
             Category = "Snacks";
-            changePurchasesContextAndSave(tempCateg);
+            changePurchasesContextAndSave();
 
 
             StackLayout stack = (e as StackLayout);
@@ -250,9 +216,8 @@ namespace SQ88Buffet.ViewModels
 
         private async Task ChangeCategToFood(object e)
         {
-            string tempCateg = Category;
             Category = "Food";
-            changePurchasesContextAndSave(tempCateg);
+            changePurchasesContextAndSave();
 
             StackLayout stack = (e as StackLayout);
             Button food = stack.FindByName<Button>("BtnFood");
@@ -266,9 +231,8 @@ namespace SQ88Buffet.ViewModels
 
         private async Task ChangeCategToDrinks(object e)
         {
-            string tempCateg = Category;
             Category = "Drinks";
-            changePurchasesContextAndSave(tempCateg);
+            changePurchasesContextAndSave();
 
 
             StackLayout stack = (e as StackLayout);
@@ -285,29 +249,10 @@ namespace SQ88Buffet.ViewModels
         {
 
             ProductList = new List<Product>();
-            //PurchasesList = new ObservableCollection<Purchase>();
             PurchasesList.Clear();
-
-            //DrinksList = new ObservableCollection<Product>(await _productRepository.GetAllProductData("Drinks"));
-            //FoodList = new ObservableCollection<Product>(await _productRepository.GetAllProductData("Food"));
-            //SnacksList = new ObservableCollection<Product>(await _productRepository.GetAllProductData("Snacks"));
 
             ProductList = new List<Product>(await _productRepository.GetAllProductData());
 
-            //switch (Category)
-            //{
-            //    case "Drinks":
-            //        ProductList = DrinksList;
-            //        break;
-            //    case "Food":
-            //        ProductList = FoodList;
-            //        break;
-            //    case "Snacks":
-            //        ProductList = SnacksList;
-            //        break;
-            //    default:
-            //        break;
-            //}
 
             foreach (Product item in ProductList)
             {
@@ -362,29 +307,9 @@ namespace SQ88Buffet.ViewModels
                     default:
                         break;
                 }
-                //PurchasesList.Add(new Purchase()
-                //{
-                //    ProductId = item.Id,
-                //    ProductName = item.Name,
-                //    ProductPrice = item.Price,
-                //    ProductQuantity = item.Quantity,
-                //    IsCompleted = false
-                //});
+
             }
-            //switch (Category)
-            //{
-            //    case "Drinks":
-            //        PurchasesList = DrinksPurchasesList;
-            //        break;
-            //    case "Food":
-            //        PurchasesList = FoodPurchasesList;
-            //        break;
-            //    case "Snacks":
-            //        PurchasesList = SnacksPurchasesList;
-            //        break;
-            //    default:
-            //        break;
-            //}
+
 
         }
 
@@ -395,21 +320,54 @@ namespace SQ88Buffet.ViewModels
 
         private async Task ContinueToSelectPers()
         {
-            throw new NotImplementedException();
+            changePurchasesContextAndSave();
+            foreach (var item in DrinksPurchasesList)
+            {
+                if (item.UnitsOfProduct > 0)
+                    FinalPurchases.Add(item);
+            }
+            foreach (var item in FoodPurchasesList)
+            {
+                if (item.UnitsOfProduct > 0)
+                    FinalPurchases.Add(item);
+            }
+            foreach (var item in SnacksPurchasesList)
+            {
+                if (item.UnitsOfProduct > 0)
+                    FinalPurchases.Add(item);
+            }
+
+            await _navigation.PushAsync(new UpdatePersonPage(true, FinalPurchases));
         }
 
         private async Task DecreaseUnits(object e)
         {
             Purchase tempPurchase = (e as Purchase);
             int indx = PurchasesList.IndexOf(tempPurchase);
-            PurchasesList[indx].UnitsOfProduct--;
+            if (tempPurchase.UnitsOfProduct == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "You can't go below 0", "Ok");
+
+            }
+            else
+            {
+                PurchasesList[indx].UnitsOfProduct--;
+            }
         }
 
         private async Task IncreaseUnits(object e)
         {
             Purchase tempPurchase = (e as Purchase);
             int indx = PurchasesList.IndexOf(tempPurchase);
-            PurchasesList[indx].UnitsOfProduct++;
+            if (tempPurchase.ProductQuantity <= tempPurchase.UnitsOfProduct)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "There's not enough left from the product.", "Ok");
+
+            }
+            else
+            {
+                PurchasesList[indx].UnitsOfProduct++;
+            }
         }
     }
 }

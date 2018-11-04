@@ -9,6 +9,8 @@
             <Label Text="Purchases has completed successfully."
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" FontSize="Large" />
+            <Button x:Name="BtnDrinks" Text="Go main page" Command="{Binding Source={x:Reference PurComp}, 
+                    Path=BindingContext.GoMainPage}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

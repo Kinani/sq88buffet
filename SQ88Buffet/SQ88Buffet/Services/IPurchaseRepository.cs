@@ -16,7 +16,7 @@ namespace SQ88Buffet.Services
         Task DeleteAllPurchasesForPerson(int personId);
         Task DeleteAllBilledPurchaseForPerson(int personId);
         Task DeletePurchase(int id);
-        Task InsertPurchase(Purchase purchase, Person person, Product product);
+        Task InsertPurchase(Purchase purchase);
         Task UpdatePurchase(Purchase purchase);
     }
 }

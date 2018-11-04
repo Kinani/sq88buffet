@@ -135,11 +135,11 @@ namespace SQ88Buffet.Helpers
             return sqliteconnection.DeleteAsync<Purchase>(id);
         }
 
-        public Task<int> InsertPurchase(Purchase purchase, Person person, Product product)
+        public Task<int> InsertPurchase(Purchase purchase)
         {
-            purchase.PersonId = person.Id;
-            purchase.ProductId = product.Id;
-            purchase.PurchaseValue = purchase.UnitsOfProduct*product.Price; // Test for float point percision.
+            //purchase.PersonId = person.Id;
+            //purchase.ProductId = product.Id;
+            //purchase.PurchaseValue = purchase.UnitsOfProduct*product.Price; // Test for float point percision.
             return sqliteconnection.InsertAsync(purchase);
         }
 

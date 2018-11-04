@@ -21,8 +21,9 @@ namespace SQ88Buffet.ViewModels
         public ICommand ChangeRankToSoldiersCommand { get; private set; }
 
         bool _burchaseOngoing = false;
+        List<Purchase> purchasesToAddPerson;
 
-        public PickPersonsViewModel(INavigation navigation, bool burchaseOngoing = false)
+        public PickPersonsViewModel(INavigation navigation, bool burchaseOngoing = false, List<Purchase> purchases = null)
         {
             _navigation = navigation;
             _person = new Person();
@@ -32,6 +33,12 @@ namespace SQ88Buffet.ViewModels
             Rank = "Officer";
 
             _burchaseOngoing = burchaseOngoing;
+            purchasesToAddPerson = new List<Purchase>();
+
+            if(purchases != null)
+            {
+                purchasesToAddPerson = purchases;
+            }
 
             ClickOnPersCommand = new Command(async (e) => await ClickOnPers(e));
             NavigateToDeletePersPageCommand = new Command(async (e) => await NavigateToDeletePersPage(e));
@@ -106,14 +113,21 @@ namespace SQ88Buffet.ViewModels
 
         private async Task ClickOnPers(object e)
         {
-            if(!_burchaseOngoing)
+            Person selectedPers = (e as Person);
+
+            if (!_burchaseOngoing)
             {
-                Person selectedPers = (e as Person);
                 await _navigation.PushAsync(new AddEditPersonPage(selectedPers));
             }
             else
             {
-                await _navigation.PushAsync(new PurchaseComplete());
+                foreach (var item in purchasesToAddPerson)
+                {
+                    item.PersonId = selectedPers.Id;
+                    item.PurchaseValue = item.UnitsOfProduct * item.ProductPrice;
+                    item.PurchaseDate = DateTime.Now;
+                }
+                await _navigation.PushAsync(new PurchaseComplete(purchasesToAddPerson));
             }
         }
     }

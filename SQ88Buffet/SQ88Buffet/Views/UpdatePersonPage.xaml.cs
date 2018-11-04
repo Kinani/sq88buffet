@@ -1,6 +1,8 @@
-﻿using SQ88Buffet.ViewModels;
+﻿using SQ88Buffet.Models;
+using SQ88Buffet.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +17,10 @@ namespace SQ88Buffet.Views
 	{
         PickPersonsViewModel _pickPersonsViewModel;
 
-        public UpdatePersonPage ()
+        public UpdatePersonPage (bool burchaseOn = false, List<Purchase> purchases = null)
 		{
 			InitializeComponent ();
-            _pickPersonsViewModel = new PickPersonsViewModel(Navigation);
+            _pickPersonsViewModel = new PickPersonsViewModel(Navigation, burchaseOn, purchases);
             BindingContext = _pickPersonsViewModel;
 		}
         protected async override void OnAppearing()

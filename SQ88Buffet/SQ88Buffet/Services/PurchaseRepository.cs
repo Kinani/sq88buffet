@@ -54,9 +54,9 @@ namespace SQ88Buffet.Services
             return await _databaseHelper.GetPurchasesDataForPersonWithDate(personId, datetime);
         }
 
-        public async Task InsertPurchase(Purchase purchase, Person person, Product product)
+        public async Task InsertPurchase(Purchase purchase)
         {
-            await _databaseHelper.InsertPurchase(purchase, person, product);
+            await _databaseHelper.InsertPurchase(purchase);
         }
 
         public async Task UpdatePurchase(Purchase purchase)
