@@ -19,11 +19,14 @@ namespace SQ88Buffet.ViewModels
         public ICommand ChangeRankToOfficersCommand { get; private set; }
         public ICommand ChangeRankToWOfficersCommand { get; private set; }
         public ICommand ChangeRankToSoldiersCommand { get; private set; }
+        public ICommand SelectAllForInvoiceCommand { get; private set; }
 
         bool _burchaseOngoing = false;
+        bool _invoiceOngoing = false;
         List<Purchase> purchasesToAddPerson;
 
-        public PickPersonsViewModel(INavigation navigation, bool burchaseOngoing = false, List<Purchase> purchases = null)
+        public PickPersonsViewModel(INavigation navigation, bool burchaseOngoing = false, List<Purchase> purchases = null,
+            bool invoiceOn = false)
         {
             _navigation = navigation;
             _person = new Person();
@@ -32,6 +35,7 @@ namespace SQ88Buffet.ViewModels
             PersonsList = new ObservableCollection<Person>();
             Rank = "Officer";
 
+            _invoiceOngoing = invoiceOn;
             _burchaseOngoing = burchaseOngoing;
             purchasesToAddPerson = new List<Purchase>();
 
@@ -46,7 +50,13 @@ namespace SQ88Buffet.ViewModels
             ChangeRankToOfficersCommand = new Command(async (e) => await ChangeRankToOfficers(e));
             ChangeRankToWOfficersCommand = new Command(async (e) => await ChangeRankToWOfficers(e));
             ChangeRankToSoldiersCommand = new Command(async (e) => await ChangeRankToSoldiers(e));
+            SelectAllForInvoiceCommand = new Command(async () => await SelectAllForInvoice());
 
+        }
+
+        private async Task SelectAllForInvoice()
+        {
+            await _navigation.PushAsync(new CreateInvoicePage(new List<Person>(PersonsList)));
         }
 
         private async Task ChangeRankToSoldiers(object e)
@@ -115,11 +125,11 @@ namespace SQ88Buffet.ViewModels
         {
             Person selectedPers = (e as Person);
 
-            if (!_burchaseOngoing)
+            if (!_burchaseOngoing && !_invoiceOngoing)
             {
                 await _navigation.PushAsync(new AddEditPersonPage(selectedPers));
             }
-            else
+            else if(_burchaseOngoing)
             {
                 foreach (var item in purchasesToAddPerson)
                 {
@@ -128,6 +138,12 @@ namespace SQ88Buffet.ViewModels
                     item.PurchaseDate = DateTime.Now;
                 }
                 await _navigation.PushAsync(new PurchaseComplete(purchasesToAddPerson));
+            }
+            else if(_invoiceOngoing)
+            {
+                var tempPerss = new List<Person>();
+                tempPerss.Add(selectedPers);
+                await _navigation.PushAsync(new CreateInvoicePage(tempPerss));
             }
         }
     }

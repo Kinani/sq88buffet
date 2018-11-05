@@ -17,6 +17,8 @@
                     Path=BindingContext.ChangeRankToWOfficersCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
                 <Button x:Name="BtnSoldiers" Text="Soldiers" WidthRequest="80" Command="{Binding Source={x:Reference UpdatePerPage}, 
                     Path=BindingContext.ChangeRankToSoldiersCommand}" CommandParameter="{x:Reference BtnsStack}"></Button>
+                <Button x:Name="BtnAll" Text="Select All" WidthRequest="80" Command="{Binding Source={x:Reference UpdatePerPage}, 
+                    Path=BindingContext.SelectAllForInvoiceCommand}"></Button>
             </StackLayout>
             <ListView x:Name="PersonsListView" HasUnevenRows="False"  
                   ItemsSource="{Binding PersonsList}" Grid.Row="1">

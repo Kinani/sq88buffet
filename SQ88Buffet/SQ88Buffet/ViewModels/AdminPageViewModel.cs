@@ -49,7 +49,7 @@ namespace SQ88Buffet.ViewModels
                     await _navigation.PushAsync(new AddAccessoPage());
                     break;
                 case "Create invoice":
-                    await _navigation.PushAsync(new CreateInvoicePage());
+                    await _navigation.PushAsync(new UpdatePersonPage(false,null,true));
                     break;
                 case "About":
                     await _navigation.PushAsync(new AboutPage());

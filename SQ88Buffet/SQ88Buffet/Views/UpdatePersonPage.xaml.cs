@@ -16,17 +16,23 @@ namespace SQ88Buffet.Views
 	public partial class UpdatePersonPage : ContentPage
 	{
         PickPersonsViewModel _pickPersonsViewModel;
-
-        public UpdatePersonPage (bool burchaseOn = false, List<Purchase> purchases = null)
+        bool _invoiceOn;
+        public UpdatePersonPage (bool burchaseOn = false, List<Purchase> purchases = null, bool invoiceOn = false)
 		{
 			InitializeComponent ();
-            _pickPersonsViewModel = new PickPersonsViewModel(Navigation, burchaseOn, purchases);
+            _pickPersonsViewModel = new PickPersonsViewModel(Navigation, burchaseOn, purchases, invoiceOn);
             BindingContext = _pickPersonsViewModel;
+            _invoiceOn = invoiceOn;
 		}
         protected async override void OnAppearing()
         {
             base.OnAppearing();
             await _pickPersonsViewModel.FetchAllPersons();
+
+            if(!_invoiceOn)
+            {
+                BtnAll.IsVisible = false;
+            }
         }
     }
 }
